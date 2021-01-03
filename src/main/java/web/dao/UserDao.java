@@ -28,4 +28,15 @@ public class UserDao {
     }
 
     public void save(User user) { user.setId(++ID_COUNT); userList.add(user); }
+
+    public void update(int id, User updatedUser) {
+        User userWillUpdated = show(id);
+        userWillUpdated.setName(updatedUser.getName());
+        userWillUpdated.setSurname(updatedUser.getSurname());
+        userWillUpdated.setEmail(updatedUser.getEmail());
+    }
+
+    public void delete(int id) {
+        userList.removeIf(u -> u.getId() == id);
+    }
 }

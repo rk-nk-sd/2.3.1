@@ -1,13 +1,23 @@
 package web.model;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 import javax.persistence.*;
 
 
 public class User {
 
     private long id;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
     private String name;
+    @NotEmpty(message = "Name should not be empty")
+    @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
     private String surname;
+    @NotEmpty(message = "Name should not be empty")
+    @Email(message = "Email shoul be valid")
     private String email;
 
     public User() {
