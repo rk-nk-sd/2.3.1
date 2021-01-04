@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <link href="../../css/style.css" rel="stylesheet" type="text/css"/>
+</head>
 <body>
 <h2>Hello World!</h2>
+<p>Русский язык...</p>
 <th:block th:each="msg : ${messages}">
     <p th:text="${msg}"></p>
 </th:block>

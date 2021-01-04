@@ -6,15 +6,18 @@ import jakarta.validation.constraints.Size;
 
 import javax.persistence.*;
 
-
+@Entity
+@Table(name = "user")
 public class User {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
     private String name;
     @NotEmpty(message = "Name should not be empty")
     @Size(min = 2, max = 20, message = "Name should be between 2 and 20 characters")
+    @Column(name = "lastname")
     private String surname;
     @NotEmpty(message = "Name should not be empty")
     @Email(message = "Email shoul be valid")

@@ -6,35 +6,33 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import web.dao.UserDao;
+import web.dao.UserDaoHibernateImpl;
 import web.model.User;
-
-import javax.naming.Binding;
 
 @Controller
 @RequestMapping("/users")
 public class UsersController {
 
-    private final UserDao userDao;
+    private final UserDaoHibernateImpl userDaoHibernateImpl;
     @Autowired
-    public UsersController(UserDao userDao) {
-        this.userDao = userDao;
+    public UsersController(UserDaoHibernateImpl userDaoHibernateImpl) {
+        this.userDaoHibernateImpl = userDaoHibernateImpl;
     }
 
     @GetMapping()
-    public String index(Model model) {
+    public String getAllUsers(Model model) {
         //Получим список пользователей из DAO и передадим в представление
-        model.addAttribute("users", userDao.index());
+        model.addAttribute("users", userDaoHibernateImpl.index());
         return "users/showAll";
     }
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model) {
+    public String getCurrentUser(@PathVariable("id") int id, Model model) {
         //Получим одного пользователя по id из DAO и передадим на представление
-        model.addAttribute("user", userDao.show(id));
+        model.addAttribute("user", userDaoHibernateImpl.show(id));
         return "users/show";
     }
     @GetMapping("/new")
-    public String newUser(Model model) {
+    public String addNewUser(Model model) {
         //Вернет html форму для создания нового пользователя
         model.addAttribute("user", new User());
         return "users/new";
@@ -43,24 +41,24 @@ public class UsersController {
     public String create(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if(bindingResult.hasErrors())
             return "users/new";
-        userDao.save(user);
+        userDaoHibernateImpl.save(user);
         return "redirect:/users";
     }
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userDao.show(id));
+        model.addAttribute("user", userDaoHibernateImpl.show(id));
         return "users/edit";
     }
     @PostMapping("/{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") int id) {
         if(bindingResult.hasErrors())
             return "users/edit";
-        userDao.update(id, user);
+        userDaoHibernateImpl.update(id, user);
         return "redirect:/users";
     }
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
-        userDao.delete(id);
+        userDaoHibernateImpl.delete(id);
         return "redirect:/users";
     }
 }
